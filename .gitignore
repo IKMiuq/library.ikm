@@ -4,7 +4,7 @@ npm-debug.log
 yarn-error.log
 
 # Laravel 4 specific
-bootstrap/compiled.php
+bootstrap/
 app/storage/
 
 # Laravel 5 & Lumen specific
@@ -16,7 +16,19 @@ public_html/storage
 public_html/hot
 
 storage/*.key
+.directory
+.editorconfig
 .env
+.env.example
+.gitattributes
+.styleci.yml
+artisan
+webpack.mix.js
+composer.json
+composer.lock
+package.json
+phpunit.xml
+server.php
 Homestead.yaml
 Homestead.json
 /.vagrant
