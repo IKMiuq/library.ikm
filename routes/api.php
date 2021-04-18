@@ -25,7 +25,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Авторы
 Route::get('/authors', [AuthorApiController::class, 'index']);
-Route::get('/authors/page-{number}/{count}', [AuthorApiController::class, 'page']);
 Route::post('/authors', [AuthorApiController::class, 'store']);
 Route::put('/authors/{author}', [AuthorApiController::class, 'update']);
 Route::delete('/authors/{author}', [AuthorApiController::class, 'delete']);
@@ -38,6 +37,7 @@ Route::delete('/books/{book}', [BookApiController::class, 'delete']);
 
 //Комментарии
 Route::get('/comments', [CommentApiController::class, 'index']);
+Route::get('/comments/page-{number}/{count}', [CommentApiController::class, 'page']);
 Route::put('/comments/{comment}', [CommentApiController::class, 'update']);
 Route::post('/comments', [CommentApiController::class, 'store']);
 Route::delete('/comments/{comment}', [CommentApiController::class, 'delete']);

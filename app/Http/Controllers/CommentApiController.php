@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Validator;
 
 class CommentApiController extends Controller
 {
@@ -56,6 +58,20 @@ class CommentApiController extends Controller
 
         return [
             'success' => $success
+        ];
+    }
+
+    public function page($number, $count)
+    {
+        $comments = DB::table('comments')->get();
+        $request = "";
+        $all_count = count($comments);
+        /*if ($all_count > $count) {
+            $request = array_slice($comments, 0, $number);
+        }*/
+
+        return [
+            'success' => $request //$number
         ];
     }
 }

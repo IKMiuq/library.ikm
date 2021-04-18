@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Validator;
 
 class AuthorApiController extends Controller
 {
@@ -13,21 +14,41 @@ class AuthorApiController extends Controller
         return json_encode(Author::all(), JSON_UNESCAPED_UNICODE);
     }
 
-    public function store() 
+    public function store(Request $request) 
     {
-        request()->validate([
-            'surname' => 'required',
-            'name' => 'required',
-            'patronymic' => 'required',
-            'biography' => 'required',
-        ]);
-    
-        return Author::create([
-            'surname' => request('surname'),
-            'name' => request('name'),
-            'patronymic' => request('patronymic'),
-            'biography' => request('biography'),
-        ]);
+        $authors = $request->all();
+        $access = '';
+        if (is_array($authors)) {
+            $rules = [
+                '*.surname' => 'required',
+                '*.name' => 'required',
+                '*.patronymic' => 'required',
+                '*.biography' => 'required'
+            ];
+            $validate = $this->validate($request, $rules);
+            foreach ($authors as $author) {
+                $access .= Author::create([
+                    'surname' => $author['surname'],
+                    'name' => $author['name'],
+                    'patronymic' => $author['patronymic'],
+                    'biography' => $author['biography'],
+                ]);
+            }
+        } else {
+            request()->validate([
+                'surname' => 'required',
+                'name' => 'required',
+                'patronymic' => 'required',
+                'biography' => 'required',
+            ]);
+        
+            return Author::create([
+                'surname' => request('surname'),
+                'name' => request('name'),
+                'patronymic' => request('patronymic'),
+                'biography' => request('biography'),
+            ]);
+        }
     }
 
     public function update(Author $author) 
@@ -57,20 +78,6 @@ class AuthorApiController extends Controller
 
         return [
             'success' => $success
-        ];
-    }
-
-    public function page($number, $count)
-    {
-        $authors = DB::table('authors')->get();
-        $request = "";
-        $all_count = count($authors);
-        if ($all_count > $count) {
-            $request = array_slice($authors, 0, 1);
-        }
-
-        return [
-            'success' => $request //$number
         ];
     }
 }
